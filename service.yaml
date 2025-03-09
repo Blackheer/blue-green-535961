@@ -1,14 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: brightspace-service
+  name: website-service
 spec:
-  type: NodePort  # of LoadBalancer als je externe toegang wilt
+  type: ClusterIP
   selector:
-    app: demo-app
-    release: v1  # Wijzig naar v2 om naar Green deployment te schakelen
+    app: website
   ports:
     - port: 80
       targetPort: 80
-      nodePort: 30080  # Alleen nodig bij type NodePort
+
 

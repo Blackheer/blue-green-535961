@@ -2,6 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: demo-app-green
+  labels:
+    app: demo-app
+    version: green
 spec:
   replicas: 3
   selector:
@@ -13,9 +16,11 @@ spec:
       labels:
         app: demo-app
         release: v2
+        version: green
     spec:
       containers:
       - name: nginx
         image: europe-west4-docker.pkg.dev/kubernetes-week1/maurice535961rp/webserver:green
         ports:
         - containerPort: 80
+

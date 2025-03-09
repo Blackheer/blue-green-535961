@@ -5,7 +5,7 @@ metadata:
 spec:
   selector:
     app: demo-app
-    release: v1  # Wijzig naar v2 om naar Green deployment te schakelen
+    release: v2  # Wijzig naar v2 om naar Green deployment te schakelen
   ports:
   - protocol: TCP
     port: 80

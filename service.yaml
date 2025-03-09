@@ -1,14 +1,16 @@
+# service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: website-service
+  name: app-service
 spec:
-  type: ClusterIP
   selector:
-    app: website
-    version: v1  # Hier specificeer je welke versie je wilt gebruiken
+    app: demo-app
+    version: blue  # Initieel wijst dit naar de blue deployment
   ports:
-    - port: 80
-      targetPort: 80
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: LoadBalancer
 
 

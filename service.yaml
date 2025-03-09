@@ -6,6 +6,7 @@ spec:
   type: ClusterIP
   selector:
     app: website
+    version: v1  # Hier specificeer je welke versie je wilt gebruiken
   ports:
     - port: 80
       targetPort: 80

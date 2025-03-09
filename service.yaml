@@ -1,13 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: demo-app-service
+  name: brightspace-service
 spec:
+  type: NodePort  # of LoadBalancer als je externe toegang wilt
   selector:
     app: demo-app
-    release: v2  # Wijzig naar v2 om naar Green deployment te schakelen
+    release: v1  # Wijzig naar v2 om naar Green deployment te schakelen
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
-  type: LoadBalancer
+    - port: 80
+      targetPort: 80
+      nodePort: 30080  # Alleen nodig bij type NodePort
+

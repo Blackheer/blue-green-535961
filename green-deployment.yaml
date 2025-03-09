@@ -1,7 +1,8 @@
+# green-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: demo-app-green
+  name: app-green
   labels:
     app: demo-app
     version: green
@@ -10,17 +11,17 @@ spec:
   selector:
     matchLabels:
       app: demo-app
-      release: v2
+      version: green
   template:
     metadata:
       labels:
         app: demo-app
-        release: v2
         version: green
     spec:
       containers:
-      - name: nginx
-        image: europe-west4-docker.pkg.dev/kubernetes-week1/maurice535961rp/webserver:green
+      - name: app
+        image: us-central1-docker.pkg.dev/PROJECT_ID/container-example/app-image:GREEN_VERSION
         ports:
         - containerPort: 80
+
 

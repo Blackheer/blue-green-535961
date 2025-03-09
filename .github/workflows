@@ -1,1 +1,40 @@
+name: Build and Push to Artifact Registry
+
+on:
+  push:
+    branches: ["main", "test"]
+
+env:
+  PROJECT_ID: kubernetes-week1
+  REGION: europe-west4
+  REPOSITORY: maurice535961rp
+
+jobs:
+  build-push-artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+        
+      - id: "auth"
+        uses: "google-github-actions/auth@v2"
+        with:
+          credentials_json: "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}"
+          
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v2"
+        
+      - name: "Docker auth"
+        run: gcloud auth configure-docker europe-west4-docker.pkg.dev
+        
+      - name: "Get branch name"
+        id: branch-name
+        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+        
+      - name: "Build and push Docker image"
+        uses: "docker/build-push-action@v2"
+        with:
+          push: true
+          tags: |
+            europe-west4-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/webserver:${{ steps.branch-name.outputs.branch == 'main' && 'blue' || 'green' }}
 

@@ -1,14 +1,12 @@
-# service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-service
+  name: webserver-service
 spec:
-  selector:
-    app: demo-app
-    version: blue  # Initieel wijst dit naar de blue deployment
-  ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
   type: LoadBalancer
+  selector:
+    app: webserver
+    version: blue  # Dit label bepaalt of je naar blue of green verwijst
+  ports:
+    - port: 80
+      targetPort: 80

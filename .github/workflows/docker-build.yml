@@ -50,5 +50,4 @@ jobs:
       - name: "Deploy to GKE"
         run: |
           kubectl apply -f week3deploymentblue.yaml
-          kubectl apply -f week3deploymentgreen.yaml
           kubectl rollout status deployment/demo-app-${{ steps.branch-name.outputs.branch == 'main' && 'blue' || 'green' }}

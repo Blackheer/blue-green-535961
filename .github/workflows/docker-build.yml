@@ -8,8 +8,8 @@ env:
   PROJECT_ID: kubernetes-week1
   REGION: europe-west4
   REPOSITORY: maurice535961rp
-  CLUSTER_NAME: your-cluster-name
-  ZONE: your-cluster-zone
+  CLUSTER_NAME: autopilot-cluster-1
+  ZONE: us-central1
 
 jobs:
   build-push-deploy:

@@ -1,4 +1,4 @@
-name: Build and Push to Artifact Registry
+name: Build, Push to Artifact Registry, and Deploy to GKE
 
 on:
   push:
@@ -8,9 +8,11 @@ env:
   PROJECT_ID: kubernetes-week1
   REGION: europe-west4
   REPOSITORY: maurice535961rp
+  CLUSTER_NAME: your-cluster-name
+  ZONE: your-cluster-zone
 
 jobs:
-  build-push-artifact:
+  build-push-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
@@ -37,3 +39,16 @@ jobs:
           push: true
           tags: |
             europe-west4-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/webserver:${{ steps.branch-name.outputs.branch == 'main' && 'blue' || 'green' }}
+            
+      - name: "Get GKE credentials"
+        uses: "google-github-actions/get-gke-credentials@v1"
+        with:
+          cluster_name: ${{ env.CLUSTER_NAME }}
+          location: ${{ env.ZONE }}
+          credentials: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+          
+      - name: "Deploy to GKE"
+        run: |
+          kubectl apply -f k8s/deployment.yaml
+          kubectl apply -f k8s/service.yaml
+          kubectl rollout status deployment/demo-app-${{ steps.branch-name.outputs.branch == 'main' && 'blue' || 'green' }}
